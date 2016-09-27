@@ -10,14 +10,21 @@ import android.view.View;
  * Created by appcreator05 on 2016. 9. 26..
  */
 public class MyImage extends View {
+    int choose;
+    Bitmap picture;
     MyImage(Context context) {
         super(context);
+        picture = BitmapFactory.decodeResource(getResources(), R.drawable.strawberry);
+    }
+
+    public void setChoose(int choose) {
+        this.choose = choose;
+
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Bitmap picture = BitmapFactory.decodeResource(getResources(), R.drawable.strawberry);
         float cx = getWidth() / 2.0f;
         float cy = getWidth() / 2.0f; //view의 정중앙 좌표
 
@@ -30,7 +37,23 @@ public class MyImage extends View {
         //크기
         //canvas.scale(2,2,cx, cy);
         //비틀기
-        canvas.skew(0.4f, 0.4f);
+        switch (choose){
+            case MainActivity.ROTATE:
+                canvas.rotate(45, cx, cy);//회전시키는 것
+                break;
+            case MainActivity.TRANSLATE:
+                canvas.translate(-150, 200);
+                break;
+            case MainActivity.SKEW:
+                canvas.skew(0.4f, 0.4f);
+                break;
+            case MainActivity.SCALE:
+                canvas.scale(2,2,cx, cy);
+                break;
+
+        }
+
         canvas.drawBitmap(picture, x, y, null);
+        //picture.recycle(); //resource 반환하는 것
     }
 }
